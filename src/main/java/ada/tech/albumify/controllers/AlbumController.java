@@ -43,7 +43,7 @@ public class AlbumController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<AlbumDto> atualizarProfessor(
+    public ResponseEntity<AlbumDto> updateAlbum(
             @PathVariable("id") int id,
             @RequestBody AlbumDto request
     ) throws NotFoundException {

@@ -31,9 +31,6 @@ public class AlbumService implements IAlbumService {
 
     @Override
     public List<AlbumDto> readAllAlbums() {
-        SummaryDto summary = getArtistSummary("Djavan");
-        System.out.println(summary.getSummary());
-
         return repository
                 .findAll()
                 .stream()

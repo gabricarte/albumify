@@ -3,6 +3,7 @@ package ada.tech.albumify.controllers;
 
 import ada.tech.albumify.domain.dto.AlbumDto;
 import ada.tech.albumify.domain.dto.exceptions.NotFoundException;
+import ada.tech.albumify.domain.entities.Album;
 import ada.tech.albumify.service.IAlbumService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,6 +42,18 @@ public class AlbumController {
         return ResponseEntity.ok(service.readAlbum(id));
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<AlbumDto> atualizarProfessor(
+            @PathVariable("id") int id,
+            @RequestBody AlbumDto request
+    ) throws NotFoundException {
+        final AlbumDto album = service.updateAlbum(id, request);
+        if (album == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+        return ResponseEntity.ok(album);
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteAlbum(
             @PathVariable("id") int id
@@ -48,6 +61,5 @@ public class AlbumController {
         service.deleteAlbum(id);
         return ResponseEntity.noContent().build();
     }
-
 
 }

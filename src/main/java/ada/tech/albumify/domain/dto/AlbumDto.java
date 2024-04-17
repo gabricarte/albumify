@@ -17,4 +17,5 @@ public class AlbumDto {
     private String artist;
     private int year;
     private int id;
+    private String summary;
 }

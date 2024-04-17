@@ -1,6 +1,7 @@
-package ada.tech.albumify.mappers;
+package ada.tech.albumify.domain.mappers;
 
 import ada.tech.albumify.domain.dto.AlbumDto;
+import ada.tech.albumify.domain.dto.SummaryDto;
 import ada.tech.albumify.domain.entities.Album;
 
 public class AlbumMapper {
@@ -13,12 +14,13 @@ public class AlbumMapper {
                 .build();
     }
 
-    public static AlbumDto toDto(Album entity) {
+    public static AlbumDto toDto(Album entity, SummaryDto summary) {
         return new AlbumDto(
                 entity.getName(),
                 entity.getArtist(),
                 entity.getYear(),
-                entity.getId()
+                entity.getId(),
+                summary.getSummary()
         );
     }
 

@@ -18,7 +18,7 @@ It provides endpoints for CRUD (Create, Read, Update, Delete) operations, enabli
 
 ## Security
 
-The API implements security measures using Spring Security to control access to endpoints. Only authenticated users with the role "ADMIN" are allowed to update albums.
+The API implements security measures using Spring Security to control access to endpoints. Only authenticated users with the role "ADMIN" are allowed to post albums.
 
 ## External Services
 

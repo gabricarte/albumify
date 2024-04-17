@@ -16,6 +16,14 @@ It provides endpoints for CRUD (Create, Read, Update, Delete) operations, enabli
 
 - Album Deletion: Through DELETE requests, users can remove albums from the database.
 
+## Security
+
+The API implements security measures using Spring Security to control access to endpoints. Only authenticated users with the role "ADMIN" are allowed to update albums.
+
+## External Services
+
+The Last.fm API is utilized to retrieve artist information. Special thanks to the Last.fm API for providing valuable data about artists.
+
 ## Branches:
 
 - v01: Basic internal operations without security.

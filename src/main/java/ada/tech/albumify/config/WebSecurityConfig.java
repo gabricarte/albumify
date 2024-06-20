@@ -10,6 +10,8 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.factory.PasswordEncoderFactories;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
@@ -40,7 +42,7 @@ public class WebSecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
         httpSecurity
-                .cors(AbstractHttpConfigurer::disable)
+                .cors(Customizer.withDefaults()) // Aplica a configuração de CORS
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(r -> r.requestMatchers(new OrRequestMatcher(List.of(
                                 new AntPathRequestMatcher("/swagger-ui"),
@@ -48,13 +50,17 @@ public class WebSecurityConfig {
                                 new AntPathRequestMatcher("/v3/api-docs/**"),
                                 new AntPathRequestMatcher("/h2-console/**")
                         ))).permitAll()
-                        .requestMatchers(antMatcher(HttpMethod.GET, "/album/**")).permitAll())
-                .authorizeHttpRequests(r -> r.requestMatchers(antMatcher(HttpMethod.POST, "/album/**")).hasAnyRole("ADMIN")
+                        .requestMatchers(antMatcher(HttpMethod.GET, "/albumify/**")).permitAll())
+                .authorizeHttpRequests(r -> r.requestMatchers(antMatcher(HttpMethod.POST, "/albumify/**")).permitAll()
                         .anyRequest().authenticated())
                 .httpBasic(Customizer.withDefaults())
                 .headers(headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable));
 
         return httpSecurity.build();
+    }
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return PasswordEncoderFactories.createDelegatingPasswordEncoder();
     }
 
 }

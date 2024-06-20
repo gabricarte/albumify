@@ -22,7 +22,6 @@ public class AlbumService implements IAlbumService {
     private final IAlbumRepository repository;
     private final String lastFmApiKey = "fbb6863a69641c4bfef033a9002e3276";
     private final LastFmApi lastFmApi;
-
     @Override
     public AlbumDto createAlbum(AlbumDto request) {
         Album album = AlbumMapper.toEntity(request);

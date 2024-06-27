@@ -42,7 +42,7 @@ public class WebSecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
         httpSecurity
-                .cors(Customizer.withDefaults()) // Aplica a configuração de CORS
+                .cors(Customizer.withDefaults())
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(r -> r.requestMatchers(new OrRequestMatcher(List.of(
                                 new AntPathRequestMatcher("/swagger-ui"),
@@ -50,7 +50,9 @@ public class WebSecurityConfig {
                                 new AntPathRequestMatcher("/v3/api-docs/**"),
                                 new AntPathRequestMatcher("/h2-console/**")
                         ))).permitAll()
+                        .requestMatchers(HttpMethod.DELETE, "/albumify/user/").hasRole("USER")
                         .requestMatchers(antMatcher(HttpMethod.GET, "/albumify/**")).permitAll())
+
                 .authorizeHttpRequests(r -> r.requestMatchers(antMatcher(HttpMethod.POST, "/albumify/**")).permitAll()
                         .anyRequest().authenticated())
                 .httpBasic(Customizer.withDefaults())

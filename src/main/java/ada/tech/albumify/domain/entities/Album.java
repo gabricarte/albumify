@@ -12,7 +12,10 @@ import java.time.Instant;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name="tb_albums")
+@Table(
+        name="tb_album",
+        uniqueConstraints = {@UniqueConstraint(columnNames = {"name", "artist"})}
+)
 
 public class Album {
     @Id

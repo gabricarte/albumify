@@ -1,26 +1,29 @@
 package ada.tech.albumify.domain.entities;
 
+
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Data
 @Builder
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "tb_user")
-public class User {
+@Table(name="tb_album_user")
+public class AlbumUser {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(name = "\"username\"", unique = true)
-    private String username;
+    @ManyToOne
+    @JoinColumn(name = "id_album")
+    private Album album;
 
-    @Column(name = "\"password\"")
-    private String password;
+    @ManyToOne
+    @JoinColumn(name = "id_user")
+    private User user;
 
 }

@@ -1,6 +1,7 @@
 package ada.tech.albumify.controllers;
 
 import ada.tech.albumify.domain.dto.ErrorResponse;
+import ada.tech.albumify.domain.dto.exceptions.AlreadyExistsException;
 import ada.tech.albumify.domain.dto.exceptions.NotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,4 +14,10 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ErrorResponse> handleNotFoundException(final NotFoundException exception) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ErrorResponse.createFromException(exception));
     }
+
+    @ExceptionHandler(value = AlreadyExistsException.class)
+    public ResponseEntity<ErrorResponse> handleAlreadyExistsException(final AlreadyExistsException exception) {
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(ErrorResponse.createFromAlreadyExistsException(exception));
+    }
+
 }

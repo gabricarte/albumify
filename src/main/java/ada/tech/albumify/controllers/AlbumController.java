@@ -2,6 +2,7 @@ package ada.tech.albumify.controllers;
 
 
 import ada.tech.albumify.domain.dto.AlbumDto;
+import ada.tech.albumify.domain.dto.exceptions.AlreadyExistsException;
 import ada.tech.albumify.domain.dto.exceptions.NotFoundException;
 import ada.tech.albumify.domain.entities.Album;
 import ada.tech.albumify.service.IAlbumService;
@@ -24,11 +25,12 @@ public class AlbumController {
         this.service = service;
     }
 
-    @PostMapping
+    @PostMapping("/{userId}")
     public ResponseEntity<Album> createAlbum(
-            @RequestBody AlbumDto request
-    ){
-        return ResponseEntity.status(HttpStatus.CREATED).body(service.createAlbum(request));
+            @RequestBody AlbumDto request,
+            @PathVariable("userId") int userId
+    )throws NotFoundException, AlreadyExistsException {
+        return ResponseEntity.status(HttpStatus.CREATED).body(service.createAlbum(request, userId));
     }
     @GetMapping
     public ResponseEntity<List<Album>> readAllAlbums(){

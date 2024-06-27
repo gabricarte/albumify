@@ -1,5 +1,6 @@
 package ada.tech.albumify.domain.dto;
 
+import ada.tech.albumify.domain.dto.exceptions.AlreadyExistsException;
 import ada.tech.albumify.domain.dto.exceptions.NotFoundException;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
@@ -26,12 +27,12 @@ public class ErrorResponse {
         String message = "No record of " + ex.getClazz().getSimpleName() + " found for id " + ex.getId();
         return new ErrorResponse(message);
     }
-    public static ErrorResponse createFromException(MethodArgumentNotValidException ex) {
-        var violations = ex
-                .getFieldErrors()
-                .stream()
-                .map(it -> new ErrorMessage(it.getField(), it.getDefaultMessage()))
-                .collect(Collectors.toList());
-        return new ErrorResponse("Validation errors", violations);
+
+    public static ErrorResponse createFromAlreadyExistsException(AlreadyExistsException ex) {
+    String message = "The album " + ex.getAlbum().getName() + " is already associated with user " + ex.getUser().getUsername();
+        return new ErrorResponse(message);
     }
+
+
+
 }

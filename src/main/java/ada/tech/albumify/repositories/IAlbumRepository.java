@@ -6,5 +6,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface IAlbumRepository extends JpaRepository<Album, Integer> {
-
+    boolean existsByNameAndArtist(String name, String artist);
+    Album findByNameAndArtist(String name, String artist);
 }

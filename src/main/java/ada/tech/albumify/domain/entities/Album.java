@@ -20,7 +20,6 @@ public class Album {
     private int id;
     private String name;
     private String artist;
-    @Column(name = "\"year\"")
-    private int year;
-
+    @Column(length = 1200)
+    private String summary;
 }

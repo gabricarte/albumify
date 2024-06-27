@@ -13,9 +13,8 @@ import lombok.NoArgsConstructor;
 @JsonIgnoreProperties
 
 public class AlbumDto {
+    private int id;
     private String name;
     private String artist;
-    private int year;
-    private int id;
     private String summary;
 }

@@ -25,29 +25,29 @@ public class AlbumController {
     }
 
     @PostMapping
-    public ResponseEntity<AlbumDto> createAlbum(
+    public ResponseEntity<Album> createAlbum(
             @RequestBody AlbumDto request
     ){
         return ResponseEntity.status(HttpStatus.CREATED).body(service.createAlbum(request));
     }
     @GetMapping
-    public ResponseEntity<List<AlbumDto>> readAllAlbums(){
+    public ResponseEntity<List<Album>> readAllAlbums(){
         return ResponseEntity.ok(service.readAllAlbums());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<AlbumDto> readAlbum(
+    public ResponseEntity<Album> readAlbum(
             @PathVariable("id") int id
     )  throws NotFoundException {
         return ResponseEntity.ok(service.readAlbum(id));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<AlbumDto> updateAlbum(
+    public ResponseEntity<Album> updateAlbum(
             @PathVariable("id") int id,
             @RequestBody AlbumDto request
     ) throws NotFoundException {
-        final AlbumDto album = service.updateAlbum(id, request);
+        final Album album = service.updateAlbum(id, request);
         if (album == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }

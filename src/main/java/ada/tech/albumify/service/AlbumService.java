@@ -22,33 +22,33 @@ public class AlbumService implements IAlbumService {
     private final IAlbumRepository repository;
     private final String lastFmApiKey = "fbb6863a69641c4bfef033a9002e3276";
     private final LastFmApi lastFmApi;
+
     @Override
-    public AlbumDto createAlbum(AlbumDto request) {
+    public Album createAlbum(AlbumDto request) {
         Album album = AlbumMapper.toEntity(request);
-        return AlbumMapper.toDto(repository.save(album), getArtistSummary(album.getArtist()));
+        return repository.save(album);
     }
 
     @Override
-    public List<AlbumDto> readAllAlbums() {
+    public List<Album> readAllAlbums() {
         return repository
                 .findAll()
                 .stream()
-                .map(ent -> AlbumMapper.toDto(ent, getArtistSummary(ent.getArtist())))
                 .toList();
     }
 
     @Override
-    public AlbumDto readAlbum(int id) throws NotFoundException {
-        return AlbumMapper.toDto(searchAlbumById(id), getArtistSummary(searchAlbumById(id).getArtist()));
+    public Album readAlbum(int id) throws NotFoundException {
+        return repository.findById(id).orElseThrow(() -> new NotFoundException(Album.class, String.valueOf(id)));
     }
 
     @Override
-    public AlbumDto updateAlbum(int id, AlbumDto request) throws NotFoundException {
+    public Album updateAlbum(int id, AlbumDto request) throws NotFoundException {
         final Album a = repository.findById(id).orElseThrow(() -> new NotFoundException(Album.class, String.valueOf(id)));
         a.setName(request.getName());
         a.setArtist(request.getArtist());
-        a.setYear(request.getYear());
-        return AlbumMapper.toDto(repository.save(a), getArtistSummary(a.getArtist()));
+        a.setSummary(request.getSummary());
+        return repository.save(a);
     }
 
     @Override
@@ -65,4 +65,5 @@ public class AlbumService implements IAlbumService {
         String summary = response.getArtist().getBio().getSummary();
         return new SummaryDto(summary);
     }
+
 }

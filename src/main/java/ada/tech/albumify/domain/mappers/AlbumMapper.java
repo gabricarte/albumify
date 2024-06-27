@@ -10,16 +10,15 @@ public class AlbumMapper {
                 .builder()
                 .name(dto.getName())
                 .artist(dto.getArtist())
-                .year(dto.getYear())
+                .summary(dto.getSummary())
                 .build();
     }
 
     public static AlbumDto toDto(Album entity, SummaryDto summary) {
         return new AlbumDto(
+                entity.getId(),
                 entity.getName(),
                 entity.getArtist(),
-                entity.getYear(),
-                entity.getId(),
                 summary.getSummary()
         );
     }

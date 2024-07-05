@@ -5,7 +5,7 @@ import ada.tech.albumify.domain.entities.Album;
 
 import java.util.List;
 
-public interface IAlbumUser {
+public interface IAlbumUserService {
     List<Album> readAlbumsByUserId(int userId);
 
     void deleteAlbumFromUser(int idUser, int idAlbum) throws NotFoundException;

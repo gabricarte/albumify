@@ -12,7 +12,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class AlbumUserService implements IAlbumUser{
+public class AlbumUserServiceService implements IAlbumUserService {
 
     private final IAlbumUserRepository albumUserRepository;
 

@@ -2,8 +2,7 @@ package ada.tech.albumify.controllers;
 
 import ada.tech.albumify.domain.dto.exceptions.NotFoundException;
 import ada.tech.albumify.domain.entities.Album;
-import ada.tech.albumify.service.IAlbumService;
-import ada.tech.albumify.service.IAlbumUser;
+import ada.tech.albumify.service.IAlbumUserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,7 +14,7 @@ import java.util.List;
 @RequestMapping("/albumify/user")
 public class AlbumUserController {
 
-    private final IAlbumUser service;
+    private final IAlbumUserService service;
     @GetMapping("/{userId}")
     public ResponseEntity<List<Album>> readAlbumsByUserId(
             @PathVariable("userId") int userId

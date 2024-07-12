@@ -20,7 +20,13 @@ public class User {
     @Column(name = "\"username\"", unique = true)
     private String username;
 
+    @Column(name = "\"e-mail\"", unique = true)
+    private String email;
+
     @Column(name = "\"password\"")
     private String password;
 
+    @Lob
+    @Column(name = "\"profile_image\"")
+    private byte[] profileImage;
 }

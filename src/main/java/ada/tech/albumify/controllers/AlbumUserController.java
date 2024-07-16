@@ -15,13 +15,13 @@ import java.util.List;
 public class AlbumUserController {
 
     private final IAlbumUserService service;
-    @GetMapping("/{userId}")
+    @GetMapping("/albums/{userId}")
     public ResponseEntity<List<Album>> readAlbumsByUserId(
             @PathVariable("userId") int userId
     ) {
         return ResponseEntity.ok(service.readAlbumsByUserId(userId));
     }
-    @DeleteMapping("/{userId}/albums/{albumId}")
+    @DeleteMapping("/{userId}/album/{albumId}")
     public ResponseEntity<Void> deleteAlbumFromUser(
             @PathVariable("userId") int userId,
             @PathVariable("albumId") int albumId

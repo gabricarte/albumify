@@ -3,6 +3,7 @@ package ada.tech.albumify.controllers;
 import ada.tech.albumify.domain.dto.LoginResponseDto;
 import ada.tech.albumify.domain.dto.UserDto;
 import ada.tech.albumify.domain.dto.exceptions.IncorrectCredentialsException;
+import ada.tech.albumify.domain.dto.exceptions.NotFoundException;
 import ada.tech.albumify.domain.dto.exceptions.UserNotFoundException;
 import ada.tech.albumify.service.IUserService;
 import lombok.AllArgsConstructor;
@@ -20,6 +21,17 @@ import java.io.IOException;
 public class UserController {
 
     private final IUserService userService;
+
+    @GetMapping()
+    public ResponseEntity<?> getAllUsers(){
+        return ResponseEntity.ok(userService.getAllUsers());
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getUser(@PathVariable int id) throws UserNotFoundException {
+        return ResponseEntity.ok(userService.getUser(id));
+    }
+
 
     @PostMapping(path = "/login")
     public ResponseEntity<?> loginUser(@RequestBody UserDto userDto) {

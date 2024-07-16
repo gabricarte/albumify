@@ -3,7 +3,9 @@ package ada.tech.albumify.service;
 import ada.tech.albumify.domain.dto.LoginResponseDto;
 import ada.tech.albumify.domain.dto.UserDto;
 import ada.tech.albumify.domain.dto.exceptions.IncorrectCredentialsException;
+import ada.tech.albumify.domain.dto.exceptions.NotFoundException;
 import ada.tech.albumify.domain.dto.exceptions.UserNotFoundException;
+import ada.tech.albumify.domain.entities.Album;
 import ada.tech.albumify.domain.entities.User;
 import ada.tech.albumify.domain.mappers.UserMapper;
 import ada.tech.albumify.repositories.IUserRepository;
@@ -13,7 +15,8 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.util.Base64;
-import java.util.regex.Pattern;
+import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserService implements IUserService {
@@ -42,7 +45,7 @@ public class UserService implements IUserService {
                 throw new IncorrectCredentialsException("Incorrect credentials!");
             }
         } else {
-            throw new UserNotFoundException(User.class, 0);
+            throw new UserNotFoundException(0);
         }
     }
 
@@ -55,6 +58,18 @@ public class UserService implements IUserService {
         user.setProfileImage(profileImageBytes);
         repository.save(user);
         return new LoginResponseDto(tokenService.generateTokenUser(user));
+    }
+
+    @Override
+    public List<User> getAllUsers() {
+        return repository.findAll()
+                .stream()
+                .toList();
+    }
+
+    @Override
+    public User getUser(int id) throws UserNotFoundException {
+        return repository.findById(id).orElseThrow(() -> new UserNotFoundException(id));
     }
 
     public byte[] convertBase64StringToBytes(String base64String) throws IllegalArgumentException {
@@ -71,10 +86,10 @@ public class UserService implements IUserService {
     @Override
     public byte[] getUserImage(int userId) throws UserNotFoundException {
         User user = repository.findById(userId)
-                .orElseThrow(() -> new UserNotFoundException(User.class, userId));
+                .orElseThrow(() -> new UserNotFoundException( userId));
 
         if (user.getProfileImage() == null) {
-            throw new UserNotFoundException(User.class, userId); //img not found error treatment add later
+            throw new UserNotFoundException( userId); //img not found error treatment add later
         }
 
         return user.getProfileImage();

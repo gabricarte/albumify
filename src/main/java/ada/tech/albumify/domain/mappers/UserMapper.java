@@ -13,13 +13,6 @@ public class UserMapper {
                 .email(dto.getEmail())
                 .password(dto.getPassword())
                 .build();
-
-        if (dto.getProfileImageBase64() != null && !dto.getProfileImageBase64().isEmpty()) {
-            String base64Image = dto.getProfileImageBase64().split(",")[1]; // Remove o cabeçalho "data:image/jpeg;base64,"
-            byte[] profileImageBytes = Base64.getDecoder().decode(base64Image);
-            user.setProfileImage(profileImageBytes);
-        }
-
         return user;
     }
 

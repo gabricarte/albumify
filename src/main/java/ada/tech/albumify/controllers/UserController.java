@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import java.io.IOException;
 
 @RestController
-@RequestMapping("/albumify")
+@RequestMapping("/albumify/user")
 @AllArgsConstructor
 public class UserController {
 
@@ -43,7 +43,7 @@ public class UserController {
         }
     }
 
-    @GetMapping("/user-img/{userId}")
+    @GetMapping("/img/{userId}")
     public ResponseEntity<?> getUserImage(@PathVariable int userId) {
         try {
             byte[] imageBlob = userService.getUserImage(userId);

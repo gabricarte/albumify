@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.util.Base64;
+import java.util.regex.Pattern;
 
 @Service
 public class UserService implements IUserService {
@@ -50,15 +51,21 @@ public class UserService implements IUserService {
         String passwordEncoded = passwordEncoder.encode(userDto.getPassword());
         User user = UserMapper.toEntity(userDto);
         user.setPassword(passwordEncoded);
-
-        if (userDto.getProfileImageBase64() != null && !userDto.getProfileImageBase64().isEmpty()) {
-            String base64Image = userDto.getProfileImageBase64().split(",")[1]; // Remove o cabeçalho "data:image/jpeg;base64,"
-            byte[] profileImageBytes = Base64.getDecoder().decode(base64Image);
-            user.setProfileImage(profileImageBytes);
-        }
-
+        byte[] profileImageBytes = convertBase64StringToBytes(userDto.getProfileImageBase64());
+        user.setProfileImage(profileImageBytes);
         repository.save(user);
         return new LoginResponseDto(tokenService.generateTokenUser(user));
+    }
+
+    public byte[] convertBase64StringToBytes(String base64String) throws IllegalArgumentException {
+        if (base64String != null && !base64String.isEmpty()) {
+            try {
+                return Base64.getDecoder().decode(base64String);
+            } catch (IllegalArgumentException e) {
+                throw new IllegalArgumentException("Failed to decode Base64 string", e);
+            }
+        }
+        return null;
     }
 
     @Override
@@ -67,7 +74,7 @@ public class UserService implements IUserService {
                 .orElseThrow(() -> new UserNotFoundException(User.class, userId));
 
         if (user.getProfileImage() == null) {
-            throw new UserNotFoundException(User.class, userId); //img not found add later
+            throw new UserNotFoundException(User.class, userId); //img not found error treatment add later
         }
 
         return user.getProfileImage();

@@ -6,10 +6,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 
-/*
-@EntityScan(basePackages = "ada.tech.albumify.domain.entities")
-*/
-
 @SpringBootApplication
 @RequiredArgsConstructor
 @EnableFeignClients

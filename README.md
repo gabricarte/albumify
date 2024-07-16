@@ -29,3 +29,5 @@ The Last.fm API is utilized to retrieve artist information. Special thanks to th
 - v01: Basic internal operations without security.
 - v02: Implementation of external operations.
 - v03: Implementation of security on the HTTP requests.
+- v04: General changes
+- v05: Spring Security Implementation 

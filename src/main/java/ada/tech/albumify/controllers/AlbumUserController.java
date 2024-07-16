@@ -11,17 +11,17 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/albumify/user")
+@RequestMapping("/albumify")
 public class AlbumUserController {
 
     private final IAlbumUserService service;
-    @GetMapping("/albums/{userId}")
+    @GetMapping("/albums/user/{userId}")
     public ResponseEntity<List<Album>> readAlbumsByUserId(
             @PathVariable("userId") int userId
     ) {
         return ResponseEntity.ok(service.readAlbumsByUserId(userId));
     }
-    @DeleteMapping("/{userId}/album/{albumId}")
+    @DeleteMapping("/user/{userId}/album/{albumId}")
     public ResponseEntity<Void> deleteAlbumFromUser(
             @PathVariable("userId") int userId,
             @PathVariable("albumId") int albumId

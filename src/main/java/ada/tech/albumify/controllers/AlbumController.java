@@ -2,6 +2,7 @@ package ada.tech.albumify.controllers;
 
 
 import ada.tech.albumify.domain.dto.AlbumDto;
+import ada.tech.albumify.domain.dto.exceptions.AlbumNotFoundException;
 import ada.tech.albumify.domain.dto.exceptions.AlreadyExistsException;
 import ada.tech.albumify.domain.dto.exceptions.NotFoundException;
 import ada.tech.albumify.domain.entities.Album;
@@ -40,7 +41,7 @@ public class AlbumController {
     @GetMapping("/{id}")
     public ResponseEntity<Album> readAlbum(
             @PathVariable("id") int id
-    )  throws NotFoundException {
+    )  throws AlbumNotFoundException {
         return ResponseEntity.ok(service.readAlbum(id));
     }
 
@@ -48,7 +49,7 @@ public class AlbumController {
     public ResponseEntity<Album> updateAlbum(
             @PathVariable("id") int id,
             @RequestBody AlbumDto request
-    ) throws NotFoundException {
+    ) throws AlbumNotFoundException {
         final Album album = service.updateAlbum(id, request);
         if (album == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
@@ -59,7 +60,7 @@ public class AlbumController {
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteAlbum(
             @PathVariable("id") int id
-    ) throws NotFoundException {
+    ) throws AlbumNotFoundException {
         service.deleteAlbum(id);
         return ResponseEntity.noContent().build();
     }

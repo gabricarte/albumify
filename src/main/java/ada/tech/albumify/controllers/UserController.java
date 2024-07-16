@@ -34,15 +34,9 @@ public class UserController {
 
 
     @PostMapping(path = "/login")
-    public ResponseEntity<?> loginUser(@RequestBody UserDto userDto) {
-        try {
-            LoginResponseDto loginResponse = userService.userLogin(userDto);
-            return ResponseEntity.ok(loginResponse);
-        } catch (UserNotFoundException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
-        } catch (IncorrectCredentialsException e) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
-        }
+    public ResponseEntity<?> loginUser(@RequestBody UserDto userDto) throws UserNotFoundException, IncorrectCredentialsException {
+        LoginResponseDto loginResponse = userService.userLogin(userDto);
+        return ResponseEntity.ok(loginResponse);
     }
 
     @PostMapping(path="/register")

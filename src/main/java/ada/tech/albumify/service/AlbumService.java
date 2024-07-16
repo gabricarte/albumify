@@ -3,8 +3,10 @@ package ada.tech.albumify.service;
 import ada.tech.albumify.domain.dto.AlbumDto;
 import ada.tech.albumify.domain.dto.ArtistInfoResponse;
 import ada.tech.albumify.domain.dto.SummaryDto;
+import ada.tech.albumify.domain.dto.exceptions.AlbumNotFoundException;
 import ada.tech.albumify.domain.dto.exceptions.AlreadyExistsException;
 import ada.tech.albumify.domain.dto.exceptions.NotFoundException;
+import ada.tech.albumify.domain.dto.exceptions.UserNotFoundException;
 import ada.tech.albumify.domain.entities.Album;
 import ada.tech.albumify.domain.entities.AlbumUser;
 import ada.tech.albumify.domain.entities.User;
@@ -31,8 +33,8 @@ public class AlbumService implements IAlbumService {
     private final LastFmApi lastFmApi;
 
     @Override
-    public Album createAlbum(AlbumDto request, int userId) throws NotFoundException, AlreadyExistsException {
-        User user = userRepository.findById(userId).orElseThrow(() -> new NotFoundException(User.class, String.valueOf(userId)));
+    public Album createAlbum(AlbumDto request, int userId) throws AlbumNotFoundException, AlreadyExistsException {
+        User user = userRepository.findById(userId).orElseThrow(() -> new UserNotFoundException(userId));
         Album album;
 
         if (albumRepository.existsByNameAndArtist(request.getName(), request.getArtist())) {
@@ -66,13 +68,13 @@ public class AlbumService implements IAlbumService {
     }
 
     @Override
-    public Album readAlbum(int id) throws NotFoundException {
-        return albumRepository.findById(id).orElseThrow(() -> new NotFoundException(Album.class, String.valueOf(id)));
+    public Album readAlbum(int id) throws AlbumNotFoundException {
+        return searchAlbumById(id);
     }
 
     @Override
-    public Album updateAlbum(int id, AlbumDto request) throws NotFoundException {
-        final Album a = albumRepository.findById(id).orElseThrow(() -> new NotFoundException(Album.class, String.valueOf(id)));
+    public Album updateAlbum(int id, AlbumDto request) throws AlbumNotFoundException {
+        final Album a = searchAlbumById(id);
         a.setName(request.getName());
         a.setArtist(request.getArtist());
         a.setSummary(request.getSummary());
@@ -80,12 +82,12 @@ public class AlbumService implements IAlbumService {
     }
 
     @Override
-    public void deleteAlbum(int id) throws NotFoundException {
+    public void deleteAlbum(int id) throws AlbumNotFoundException {
         albumRepository.deleteById(id);
     }
 
-    private Album searchAlbumById(int id) throws NotFoundException {
-        return albumRepository.findById(id).orElseThrow(() -> new NotFoundException(Album.class, String.valueOf(id)));
+    private Album searchAlbumById(int id) throws AlbumNotFoundException {
+        return albumRepository.findById(id).orElseThrow(() -> new AlbumNotFoundException(id));
     }
 
     public SummaryDto getArtistSummary(String artistName) {

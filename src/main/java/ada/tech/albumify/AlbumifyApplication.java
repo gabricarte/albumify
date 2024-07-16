@@ -17,7 +17,6 @@ public class AlbumifyApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(AlbumifyApplication.class, args);
-		System.out.println("Running");
 	}
 
 }

@@ -32,7 +32,7 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public LoginResponseDto userLogin(UserDto userDto) {
+    public LoginResponseDto userLogin(UserDto userDto) throws UserNotFoundException, IncorrectCredentialsException {
         String username = userDto.getUsername();
         String password = userDto.getPassword();
         User user = repository.findByUsername(username);

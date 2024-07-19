@@ -23,9 +23,3 @@ The API implements security measures using Spring Security to control access to 
 ## External Services
 
 The Last.fm API is utilized to retrieve artist information. Special thanks to the Last.fm API for providing valuable data about artists.
-
-## Branches:
-
-- v01: Basic internal operations without security.
-- v02: Implementation of external operations.
-- v03: Implementation of security on the HTTP requests.

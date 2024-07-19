@@ -8,6 +8,7 @@ import ada.tech.albumify.domain.entities.Album;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 
 import java.util.Collection;
@@ -31,6 +32,12 @@ public class ErrorResponse {
 
     public static ErrorResponse createFromAlreadyExistsException(AlreadyExistsException ex) {
     String message = "The album " + ex.getAlbum().getName() + " is already associated with user " + ex.getUser().getUsername();
+        return new ErrorResponse(message);
+    }
+
+    public static ErrorResponse createFromIntegrityViolationException(DataIntegrityViolationException ex) {
+//        String message = "The cause: " + ex.getCause();
+        String message = "E-mail or username already exists";
         return new ErrorResponse(message);
     }
 

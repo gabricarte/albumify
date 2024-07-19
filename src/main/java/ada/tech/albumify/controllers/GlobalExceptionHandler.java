@@ -5,6 +5,7 @@ import ada.tech.albumify.domain.dto.exceptions.AlbumNotFoundException;
 import ada.tech.albumify.domain.dto.exceptions.AlreadyExistsException;
 import ada.tech.albumify.domain.dto.exceptions.NotFoundException;
 import ada.tech.albumify.domain.dto.exceptions.UserNotFoundException;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -24,5 +25,10 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ErrorResponse> handleAlreadyExistsException(final AlreadyExistsException exception) {
         return ResponseEntity.status(HttpStatus.CONFLICT).body(ErrorResponse.createFromAlreadyExistsException(exception));
     }
+    @ExceptionHandler(value = DataIntegrityViolationException.class)
+    public ResponseEntity<ErrorResponse> handleIntegrityViolationException(final DataIntegrityViolationException exception) {
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(ErrorResponse.createFromIntegrityViolationException(exception));
+    }
+
 
 }
